@@ -1,3 +1,4 @@
+#LLM Engineering
 Start with  Colab or Vertex AI
 
 https://console.cloud.google.com/vertex-ai/studio
@@ -60,5 +61,7 @@ speaker_embedding = torch.tensor(embeddings_dataset[7306]["xvector"]).unsqueeze(
 speech = synthesiser("Hi Vijay anand ,you are on the way to artificial intelligence engineer to mastery!", forward_params={"speaker_embeddings": speaker_embedding})
 
 sf.write("speech.wav", speech["audio"], samplerate=speech["sampling_rate"])
+
+Try giving text input and give it a try :-)
 
 
