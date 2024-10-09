@@ -1,0 +1,64 @@
+Start with  Colab or Vertex AI
+
+https://console.cloud.google.com/vertex-ai/studio
+
+Execute the cell below in notebook:
+
+!pip install diffusers transformers accelerate
+
+Log in to the HuggingFace hub site if you've not done so before.
+
+If you haven't already done so, create a free HuggingFace account at https://huggingface.co and
+navigate to Settings, then Create a new API token (Access token), giving yourself all permissions.
+
+#Press the "key" icon on the side panel to the left, and add a new secret: HF_TOKEN = your_token in
+your Google Colab and restart your session.You will be able to reuse this secret in all of your notebooks.
+
+Execute the cell below in notebook:
+################
+!pip install datasets
+################
+
+Execute the cell below in notebook:
+################
+pip install huggingface_hub
+################
+
+Execute the cell below in notebook:
+#######################
+from huggingface_hub import login
+# Your Access Token
+HF_TOKEN = "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"
+# Log in to Hugging Face Hub
+try:
+    login(HF_TOKEN, add_to_git_credential=True)
+    print("Successfully logged in!")
+except ValueError as e:
+    print(f"Login failed: {e}")
+	
+#######################
+This should log you in and allow you to use the Hugging Face Hub services with your access token.
+
+output:Token is valid (permission: fineGrained).
+Your token has been saved in your configured git credential helpers (store).
+Your token has been saved to /root/.cache/huggingface/token
+Login successful
+Successfully logged in!
+
+Execute the cell below in notebook:
+######################
+from transformers import pipeline
+from datasets import load_dataset
+import soundfile as sf
+import torch
+
+synthesiser = pipeline("text-to-speech", "microsoft/speecht5_tts", device='cpu')
+
+embeddings_dataset = load_dataset("Matthijs/cmu-arctic-xvectors", split="validation")
+speaker_embedding = torch.tensor(embeddings_dataset[7306]["xvector"]).unsqueeze(0)
+
+speech = synthesiser("Hi Vijay anand ,you are on the way to artificial intelligence engineer to mastery!", forward_params={"speaker_embeddings": speaker_embedding})
+
+sf.write("speech.wav", speech["audio"], samplerate=speech["sampling_rate"])
+
+
