@@ -28,7 +28,7 @@ Execute the cell below in notebook:
 #######################
 from huggingface_hub import login
 # Your Access Token
-HF_TOKEN = "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"
+HF_TOKEN = ""
 # Log in to Hugging Face Hub
 try:
     login(HF_TOKEN, add_to_git_credential=True)
