@@ -1,0 +1,83 @@
+!pip install -q requests torch bitsandbytes transformers sentencepiece accelerate openai
+
+# imports
+
+import os
+import requests
+from IPython.display import Markdown, display, update_display
+from openai import OpenAI
+from google.colab import drive
+from huggingface_hub import login
+from google.colab import userdata
+from transformers import AutoTokenizer, AutoModelForCausalLM, TextStreamer, BitsAndBytesConfig
+import torch
+
+# Constants
+
+AUDIO_MODEL = "whisper-1"
+LLAMA = "meta-llama/Meta-Llama-3.1-8B-Instruct"
+
+# New capability - connect this Colab to my Google Drive
+
+drive.mount("/content/drive")
+audio_filename = "/content/drive/MyDrive/llms/denver_extract.mp3"
+
+# New capability - connect this Colab to my Google Drive
+
+drive.mount("/content/drive")
+#audio_filename = "/content/drive/MyDrive/llms/denver_extract.mp3"
+
+# Sign in to HuggingFace Hub
+# Your Access Token
+HF_TOKEN = "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"
+# Log in to Hugging Face Hub
+try:
+    login(HF_TOKEN, add_to_git_credential=True)
+    print("Successfully logged in!")
+except ValueError as e:
+    print(f"Login failed: {e}")
+
+
+openai_api_key = ' Create open api key in open api site and mention'
+openai = OpenAI(api_key=openai_api_key)
+
+# Use the Whisper OpenAI model to convert the Audio to Text
+import time
+import openai
+
+# ... your existing code ...
+
+# Use the Whisper OpenAI model to convert the Audio to Text
+audio_filename = "/content/sample_data/Planning Meeting.mp3"
+audio_file = open(audio_filename, "rb")
+# Specify the audio filename (make sure it matches the listed files)
+
+    # Use the transcribe method from the updated API
+    # The  openai.Audio.transcribe call has been replaced with openai.Audio.transcribe_raw()
+  #  transcription = openai.audio.transcribe_raw(
+    #    model="whisper-1", 
+    #    file=audio_file, 
+     #   response_format="text" 
+   #)
+try:
+    # Use the transcribe_raw method from the updated API
+    transcription = openai.Audio.transcribe_raw(
+          # Corrected from openapi to openai
+        file=audio_file,
+        model="whisper-1",
+        response_format="text"
+    )
+
+    print(transcription)
+
+except FileNotFoundError:  # Use FileNotFoundError to handle file not found errors
+    print(f"Error: File not found at {audio_filename}. Please check the path and filename.")
+#except openai.error.APIError as e:  # Use openai.error.APIError to handle other OpenAI errors
+    print(f"Error: {e}")
+
+# The openai.Audio.transcribe function has been removed.
+# Consider using openai.Audio.transcribe_raw instead.
+  #transcription =  openapi.Audio.transcribe_raw(file=open(audio_filename, "rb"),
+  #    model="whisper-1",response_format="text")
+
+   # print(transcription)
