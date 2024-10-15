@@ -29,7 +29,7 @@ drive.mount("/content/drive")
 
 # Sign in to HuggingFace Hub
 # Your Access Token
-HF_TOKEN = "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"
+HF_TOKEN = "mention your token"
 # Log in to Hugging Face Hub
 try:
     login(HF_TOKEN, add_to_git_credential=True)
